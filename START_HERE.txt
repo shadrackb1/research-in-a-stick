@@ -1,0 +1,17 @@
+Research-in-a-Stick — how to try this on another computer
+
+1. Plug this USB stick into a Windows PC
+2. Open the stick in File Explorer (This PC → the drive labeled RIS)
+3. Double-click  launcher.bat
+4. Wait for a browser page to open (http://127.0.0.1:8765)
+   - First answer can take 15–40 seconds while the AI wakes up
+5. Type a question, e.g.  What are common malaria symptoms?
+
+Optional: double-click  START_HERE  or open  site\index.html  to read the product website offline.
+
+If chat looks stuck:
+  - Hard-refresh the browser (Ctrl+Shift+R)
+  - Double-click  check_model.bat
+  - Close the black window and run  launcher.bat  again
+
+No internet required for chat. No account. Your files stay on the stick.

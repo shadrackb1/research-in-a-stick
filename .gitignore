@@ -1,0 +1,14 @@
+# local / large
+models/
+portable-python/
+bin/win-x64/
+bin/kiwix/
+wiki/
+data/llama-server.log
+workspace/
+__pycache__/
+*.pyc
+.pptx-preview/
+.server_pid
+.~lock.*
+*.bak

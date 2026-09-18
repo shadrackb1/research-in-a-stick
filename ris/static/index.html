@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>RIS · Offline Chat</title>
+  <link rel="stylesheet" href="/static/styles.css" />
+</head>
+<body>
+  <div class="shell">
+    <aside class="sidebar" id="sidebar">
+      <div class="side-head">
+        <div class="logo" aria-hidden="true"></div>
+        <div>
+          <div class="brand">Research-in-a-Stick</div>
+          <div class="sub" id="sideMode">connecting…</div>
+        </div>
+        <button type="button" class="icon-btn" id="sidebarToggle" title="Collapse">☰</button>
+      </div>
+
+      <button type="button" class="new-chat" id="newChat">+ New chat</button>
+
+      <nav class="side-nav">
+        <button type="button" class="nav-item active" data-view="chat">Chat</button>
+        <button type="button" class="nav-item" data-view="library">Library</button>
+        <button type="button" class="nav-item" data-view="rag">Documents</button>
+        <button type="button" class="nav-item" data-view="cite">Citations</button>
+        <button type="button" class="nav-item" data-view="data">Data</button>
+        <button type="button" class="nav-item" data-view="wiki">Offline Wiki</button>
+      </nav>
+
+      <div class="side-foot">
+        <div class="stat-row"><span>Model</span><span id="statModel">—</span></div>
+        <div class="stat-row"><span>Notes</span><span id="statLib">—</span></div>
+        <div class="stat-row"><span>Wiki</span><span id="statWiki">—</span></div>
+        <div class="stat-row"><span>Cloud</span><span class="ok">never</span></div>
+      </div>
+    </aside>
+
+    <main class="main">
+      <!-- CHAT (primary) -->
+      <section class="view active" id="view-chat">
+        <div class="chat-scroll" id="chatScroll">
+          <div class="chat-inner" id="chatLog"></div>
+        </div>
+        <div class="composer-wrap">
+          <form class="composer" id="chatForm">
+            <textarea id="chatInput" rows="1" placeholder="Message RIS…" autocomplete="off"></textarea>
+            <button type="submit" class="send" id="chatSend" title="Send">↑</button>
+          </form>
+          <div class="composer-hint">Offline · local model · skills only when needed</div>
+        </div>
+      </section>
+
+      <!-- LIBRARY -->
+      <section class="view" id="view-library">
+        <div class="pane">
+          <h1>Knowledge library</h1>
+          <p class="muted">Offline notes on this stick.</p>
+          <form id="libForm" class="row-form">
+            <input id="libQuery" placeholder="Search maize, malaria, policy…" />
+            <button class="btn" type="submit">Search</button>
+          </form>
+          <div id="libResults" class="list"></div>
+          <h2>Loaded notes</h2>
+          <div id="libDocs" class="list"></div>
+        </div>
+      </section>
+
+      <!-- RAG -->
+      <section class="view" id="view-rag">
+        <div class="pane">
+          <h1>Documents</h1>
+          <p class="muted">Upload stays on this device.</p>
+          <form id="uploadForm" class="row-form">
+            <input type="file" id="uploadFile" accept=".pdf,.txt,.md,.csv" />
+            <button class="btn" type="submit">Upload</button>
+          </form>
+          <form id="ragForm" class="row-form" style="margin-top:1rem">
+            <input id="ragQuery" placeholder="Ask your documents…" />
+            <button class="btn" type="submit">Ask</button>
+          </form>
+          <div id="ragOut" class="card-out muted">Results appear here.</div>
+          <div id="docList" class="list"></div>
+        </div>
+      </section>
+
+      <!-- CITE -->
+      <section class="view" id="view-cite">
+        <div class="pane">
+          <h1>Citations</h1>
+          <form id="citeForm">
+            <label>Style</label>
+            <select id="citeStyle"><option value="apa">APA</option><option value="vancouver">Vancouver</option><option value="harvard">Harvard</option></select>
+            <label>Authors</label>
+            <input id="citeAuthors" value="Mwangi, Alice; Otieno, Brian" />
+            <label>Title</label>
+            <input id="citeTitle" value="Offline AI access for students" />
+            <label>Year · Journal · Vol/Issue/Pages</label>
+            <div class="triple">
+              <input id="citeYear" value="2026" />
+              <input id="citeJournal" value="KJRI" />
+              <input id="citeVol" value="12 / 2 / 45-60" />
+            </div>
+            <button class="btn" type="submit" style="margin-top:1rem">Format</button>
+          </form>
+          <div id="citeOut" class="card-out muted">Formatted citation here.</div>
+        </div>
+      </section>
+
+      <!-- DATA -->
+      <section class="view" id="view-data">
+        <div class="pane">
+          <h1>Data analysis</h1>
+          <button class="btn" type="button" id="analyzeBtn">Analyze student_survey.csv</button>
+          <div id="dataOut" class="card-out muted">Summary stats here.</div>
+        </div>
+      </section>
+
+      <!-- WIKI -->
+      <section class="view" id="view-wiki">
+        <div class="pane">
+          <h1>Offline wiki</h1>
+          <div class="row-form">
+            <button class="btn" type="button" id="wikiOpen">Open wiki</button>
+            <button class="btn ghost" type="button" id="wikiStart">Start server</button>
+          </div>
+          <form id="wikiForm" class="row-form" style="margin-top:1rem">
+            <input id="wikiQuery" placeholder="Search encyclopedia…" />
+            <button class="btn" type="submit">Search</button>
+          </form>
+          <div id="wikiStatus" class="card-out muted">Checking packs…</div>
+          <div id="wikiBooks" class="list"></div>
+        </div>
+      </section>
+    </main>
+  </div>
+  <script src="/static/app.js"></script>
+</body>
+</html>

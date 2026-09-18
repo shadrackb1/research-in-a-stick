@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>RIS Business Plan — CRIW 2026</title>
+<style>
+  :root { --ink:#14202e; --muted:#5c6b7a; --line:#d8dee6; --bg:#f6f4ef; --card:#fff; --accent:#8b1e2d; --gold:#a8842f; }
+  * { box-sizing:border-box; }
+  body { margin:0; font-family:Georgia,"Times New Roman",serif; background:var(--bg); color:var(--ink); line-height:1.55; }
+  .wrap { max-width:860px; margin:0 auto; padding:2.5rem 1.25rem 4rem; }
+  header { border-bottom:3px solid var(--accent); padding-bottom:1.25rem; margin-bottom:2rem; }
+  h1 { font-size:1.85rem; margin:0 0 .35rem; letter-spacing:-.02em; }
+  .sub { color:var(--muted); font-size:.95rem; }
+  h2 { font-size:1.2rem; margin:2rem 0 .6rem; color:var(--accent); border-left:4px solid var(--gold); padding-left:.6rem; }
+  h3 { font-size:1.02rem; margin:1.2rem 0 .4rem; }
+  table { width:100%; border-collapse:collapse; margin:.75rem 0 1.25rem; font-size:.92rem; background:var(--card); }
+  th, td { border:1px solid var(--line); padding:.5rem .65rem; text-align:left; vertical-align:top; }
+  th { background:#eef1f5; font-weight:600; }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:1rem 1.1rem; margin:1rem 0; }
+  .rec { border-left:4px solid var(--accent); background:#fff8f6; }
+  ul { margin:.4rem 0 .8rem 1.2rem; }
+  .tag { display:inline-block; font-size:.72rem; letter-spacing:.06em; text-transform:uppercase; background:var(--accent); color:#fff; padding:.2rem .5rem; border-radius:3px; }
+  footer { margin-top:3rem; font-size:.85rem; color:var(--muted); border-top:1px solid var(--line); padding-top:1rem; }
+  @media print { body { background:#fff; } .wrap { padding:0; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <div class="tag">CRIW 2026 · Business plan</div>
+  <h1>Research-in-a-Stick (RIS)</h1>
+  <p class="sub">Portable offline AI research workstation for Kenyan students · Pilot decision brief · 13 Sep 2026</p>
+</header>
+
+<div class="card rec">
+  <strong>Recommendation.</strong> Fund a <strong>12-month, 3-campus pilot (~1,500 seats)</strong>.
+  The prototype already runs ChatGPT-style chat fully offline on a USB stick.
+  Next spend buys <em>evidence and content</em> — not a bigger model.
+  Do not mass-produce until weekly active ≥ 35% and one campus converts to a paid license.
+</div>
+
+<h2>Executive snapshot</h2>
+<table>
+  <tr><th>Item</th><th>Base case</th></tr>
+  <tr><td>Unit cost (stick + imaging)</td><td>USD 12–22</td></tr>
+  <tr><td>Pilot year cost</td><td>USD ~25k–52k</td></tr>
+  <tr><td>Student price (assumed WTP)</td><td>USD 5–15 / year</td></tr>
+  <tr><td>Campus license</td><td>USD 1–4k / year</td></tr>
+  <tr><td>3-year SOM (illustrative)</td><td>2–5k seats + 8–12 campuses</td></tr>
+</table>
+
+<h2>Problem &amp; solution</h2>
+<p>Students face high data costs (project pitch: ~KES 25–50/GB, directional) and unreliable campus connectivity. Cloud AI and Wikipedia burn bundles. <strong>RIS</strong> is a plug-and-play USB: local LLM (Qwen2.5-0.5B + llama.cpp), knowledge library, document RAG, offline wiki (Kiwix), citations, CSV tools, math/code skills — <strong>no cloud, no API keys</strong>.</p>
+
+<h2>Market (bottom-up, assumption-driven)</h2>
+<table>
+  <tr><th>Layer</th><th>Definition</th><th>Base estimate</th></tr>
+  <tr><td>TAM</td><td>HE students × device access × interest</td><td>~110k potential users</td></tr>
+  <tr><td>SAM</td><td>Those who could pay (self or school)</td><td>~16.5k payers + campuses</td></tr>
+  <tr><td>SOM (3 yr)</td><td>Realistic capture with pilots + NGO</td><td>2–5k seats + 8–12 campuses</td></tr>
+</table>
+<p class="sub">Assumptions A1–A8 are planning proxies (enrollment order-of-magnitude, device access, WTP). Replace with a 200-student survey in the pilot. Confidence: product <em>high</em>, market size <em>medium–low</em>.</p>
+
+<h2>Revenue scenarios (illustrative)</h2>
+<table>
+  <tr><th>Stream</th><th>Y1</th><th>Y2</th><th>Y3</th></tr>
+  <tr><td>Campus licenses</td><td>~4k</td><td>~12k</td><td>~20k</td></tr>
+  <tr><td>Student Pro seats</td><td>~5k</td><td>~20k</td><td>~50k</td></tr>
+  <tr><td>Custom content / imaging</td><td>~2k</td><td>~10k</td><td>~25k</td></tr>
+  <tr><td><strong>Total (USD)</strong></td><td><strong>~11k</strong></td><td><strong>~42k</strong></td><td><strong>~95k</strong></td></tr>
+</table>
+
+<h2>Go-to-market</h2>
+<ul>
+  <li><strong>Now (CRIW):</strong> live demo, capture pilot LOIs.</li>
+  <li><strong>M1–6:</strong> 3 campuses, 1,500 seats, student champions.</li>
+  <li><strong>M7–12:</strong> convert 1–2 paid site licenses; publish usage evidence brief.</li>
+</ul>
+
+<h2>KPIs for the pilot</h2>
+<ul>
+  <li>Boot → first local answer &lt; 60s (p95)</li>
+  <li>Weekly active ≥ 35% of seats; ≥ 90% sessions offline-only</li>
+  <li>Support ≤ 5 tickets / 100 seats / month</li>
+  <li>Renewal intent ≥ 60%</li>
+</ul>
+
+<h2>Top risks</h2>
+<ul>
+  <li><strong>Adoption</strong> — mitigate with champions + curriculum packs.</li>
+  <li><strong>Support load</strong> — self-serve START_HERE, check_model.bat.</li>
+  <li><strong>Stick failure</strong> — NTFS imaging QC, 10% spare pool.</li>
+</ul>
+
+<h2>90-day actions</h2>
+<ol>
+  <li>MOU with 1 host university (CRIW network).</li>
+  <li>Image 200 sticks with current stack.</li>
+  <li>Survey 200 students (WTP, device access, top research tasks).</li>
+  <li>Expand library packs (methods, past papers).</li>
+</ol>
+
+<footer>
+  <strong>Sources:</strong> RIS prototype (local disk / USB); project README pitch anchors; open stack (llama.cpp, Qwen GGUF, Kiwix, Python embed).
+  Market figures are <strong>assumption-based planning estimates</strong>, not audited demand.
+  Full Markdown plan: <code>BUSINESS_PLAN.md</code>
+</footer>
+</div>
+</body>
+</html>

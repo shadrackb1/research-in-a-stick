@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Research-in-a-Stick — Offline AI research</title>
+<meta name="description" content="Local model, knowledge packs, offline wiki, citations, and data tools on one USB stick." />
+<meta name="theme-color" content="#0a0a0a" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230a0a0a'/%3E%3Crect x='6' y='10' width='16' height='12' rx='2' fill='%23f2f2f0'/%3E%3Crect x='2' y='13' width='5' height='6' fill='%239a9a96'/%3E%3Crect x='8' y='13' width='12' height='2' fill='%230a0a0a'/%3E%3Crect x='8' y='17' width='8' height='2' fill='%230a0a0a'/%3E%3C/svg%3E" />
+<style>
+  :root {
+    --bg: #0a0a0a;
+    --ink: #f2f2f0;
+    --muted: #9a9a96;
+    --dim: #5c5c58;
+    --line: rgba(255,255,255,0.09);
+    --glass: rgba(255,255,255,0.04);
+    --glass-edge: rgba(255,255,255,0.12);
+    --clay: #141414;
+    --clay-hi: #1e1e1e;
+    --mono: "Cascadia Code", Consolas, ui-monospace, monospace;
+    --serif: Georgia, "Times New Roman", serif;
+    --sans: "Segoe UI", system-ui, -apple-system, sans-serif;
+    --max: 1040px;
+    --safe: env(safe-area-inset-bottom, 0px);
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0; background: var(--bg); color: var(--ink);
+    font-family: var(--sans); font-size: 16.5px; line-height: 1.6;
+    overflow-x: hidden;
+  }
+  a { color: var(--ink); text-underline-offset: 3px; }
+  a:hover { color: #fff; }
+  :focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+  code { font-family: var(--mono); font-size: 0.88em; }
+
+  #oil { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
+  #veil {
+    position: fixed; inset: 0; z-index: 0; pointer-events: none;
+    background: radial-gradient(ellipse 100% 75% at 50% 35%, transparent 18%, rgba(0,0,0,0.62) 100%);
+  }
+  #grain {
+    position: fixed; inset: 0; z-index: 0; pointer-events: none; opacity: 0.04;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  #hint-oil {
+    position: fixed; bottom: 0.75rem; left: 50%; transform: translateX(-50%);
+    z-index: 6; pointer-events: none; font-family: var(--mono);
+    font-size: 0.68rem; letter-spacing: 0.08em; color: var(--dim);
+  }
+
+  .wrap { position: relative; z-index: 2; max-width: var(--max); margin: 0 auto; padding: 0 1.1rem calc(5rem + var(--safe)); }
+
+  /* Nav */
+  .nav {
+    position: sticky; top: 0; z-index: 50;
+    display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
+    gap: 0.5rem 1rem; padding: 0.75rem 0;
+    background: linear-gradient(180deg, rgba(10,10,10,0.96), rgba(10,10,10,0.8) 75%, transparent);
+    backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+  }
+  .brand { display: inline-flex; align-items: center; gap: 0.6rem; text-decoration: none; color: var(--ink); }
+  .brand-mark {
+    width: 32px; height: 32px; border-radius: 9px; flex-shrink: 0;
+    display: grid; place-items: center;
+    background: linear-gradient(155deg, #2c2c2c, #101010);
+    border: 1px solid rgba(255,255,255,0.28);
+    box-shadow: inset 1px 1px 2px rgba(255,255,255,0.12), 0 4px 12px rgba(0,0,0,0.4);
+  }
+  .brand-text { display: flex; flex-direction: column; line-height: 1.15; }
+  .brand-name { font-family: var(--serif); font-size: 0.98rem; }
+  .brand-tag { font-family: var(--mono); font-size: 0.58rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--dim); }
+  .nav-links { display: flex; flex-wrap: wrap; gap: 0.1rem; }
+  .nav-links a {
+    font-size: 0.82rem; color: var(--muted); text-decoration: none;
+    padding: 0.4rem 0.55rem; border-radius: 8px; min-height: 36px;
+    display: inline-flex; align-items: center;
+  }
+  .nav-links a:hover { color: var(--ink); background: rgba(255,255,255,0.06); }
+
+  /* Marquee (MiMo-style ticker) */
+  .marquee {
+    overflow: hidden; border-block: 1px solid var(--line);
+    margin: 0.5rem 0 0; padding: 0.55rem 0;
+    mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+  }
+  .marquee-track {
+    display: flex; width: max-content;
+    animation: marquee 28s linear infinite;
+  }
+  .marquee span {
+    font-family: var(--mono); font-size: 0.78rem; letter-spacing: 0.35em;
+    color: var(--dim); padding-right: 1.5rem; white-space: nowrap;
+  }
+  .marquee span b { color: var(--muted); font-weight: 400; }
+  @keyframes marquee { to { transform: translateX(-50%); } }
+
+  /* Hero */
+  .hero { padding: clamp(2.25rem, 6vw, 4rem) 0 1.5rem; }
+  .hero-kicker {
+    font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.16em;
+    text-transform: uppercase; color: var(--muted); margin: 0 0 1rem;
+  }
+  h1 {
+    font-family: var(--serif); font-weight: 400;
+    font-size: clamp(2.4rem, 7vw, 4rem); line-height: 1.08;
+    letter-spacing: -0.03em; margin: 0 0 1rem;
+  }
+  h1 .it { font-style: italic; }
+  .hero-lede {
+    font-size: 1.1rem; color: var(--muted); max-width: 42ch; margin: 0 0 1.75rem;
+  }
+  .hero-actions { display: flex; flex-wrap: wrap; gap: 0.65rem; align-items: center; }
+
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center;
+    min-height: 48px; padding: 0.65rem 1.2rem; text-decoration: none;
+    font-size: 0.95rem; font-weight: 600; border-radius: 12px; border: 0; cursor: pointer;
+    color: #0a0a0a; background: var(--ink);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.35), 0 8px 20px rgba(0,0,0,0.4);
+  }
+  .btn:hover { filter: brightness(0.92); }
+  .btn.ghost { color: var(--ink); background: transparent; border: 1px solid var(--line); box-shadow: none; }
+  .btn.ghost:hover { border-color: rgba(255,255,255,0.35); }
+
+  /* Scene */
+  .scene { perspective: 1100px; margin: 1.5rem 0 0.5rem; }
+  .world { transform-style: preserve-3d; will-change: transform; transition: transform 0.15s ease-out; }
+  .card3d { transform-style: preserve-3d; }
+
+  .clay {
+    background: linear-gradient(155deg, var(--clay-hi), var(--clay));
+    border: 1px solid var(--line); border-radius: 28px;
+    box-shadow:
+      12px 18px 40px rgba(0,0,0,0.42),
+      -8px -8px 24px rgba(255,255,255,0.025),
+      inset 2px 2px 7px rgba(255,255,255,0.055),
+      inset -4px -4px 12px rgba(0,0,0,0.35);
+  }
+  .glass {
+    background: var(--glass); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+    border: 1px solid var(--glass-edge); border-radius: 20px;
+  }
+  .pad { padding: 1.25rem 1.35rem; }
+
+  .usb-stage {
+    min-height: 200px; display: grid; place-items: center;
+    transform-style: preserve-3d; perspective: 800px;
+  }
+  .usb {
+    width: min(220px, 72vw); height: 62px; position: relative;
+    transform-style: preserve-3d;
+    transform: rotateX(-16deg) rotateY(-30deg) rotateZ(4deg);
+    filter: drop-shadow(0 28px 30px rgba(0,0,0,0.55));
+  }
+  .usb-face {
+    position: absolute; inset: 0; border-radius: 14px;
+    background: linear-gradient(155deg, #2e3038, #14151a);
+    border: 1px solid rgba(255,255,255,0.08);
+    box-shadow: inset 2px 2px 6px rgba(255,255,255,0.1), inset -3px -3px 10px rgba(0,0,0,0.45);
+  }
+  .usb-face.f { transform: translateZ(16px); display: grid; place-items: center;
+    font-family: var(--mono); letter-spacing: 0.32em; font-size: 0.78rem; color: var(--ink); }
+  .usb-face.bk { transform: translateZ(-16px) rotateY(180deg); }
+  .usb-face.tp { height: 32px; top: 0; transform: rotateX(90deg) translateZ(16px); background: #2a2c32; border-radius: 8px; }
+  .usb-face.bt { height: 32px; bottom: 0; top: auto; transform: rotateX(-90deg) translateZ(16px); background: #0e0f12; border-radius: 8px; }
+  .usb-face.lf { width: 32px; transform: rotateY(-90deg) translateZ(16px); background: #1c1d24; }
+  .usb-face.rt { width: 32px; left: auto; right: 0; transform: rotateY(90deg) translateZ(min(110px, 35vw)); background: #22242c; }
+  .usb-tongue { position: absolute; left: -42px; top: 15px; width: 46px; height: 32px;
+    background: linear-gradient(90deg, #8a9098, #c5c9ce 42%, #6a7078); border-radius: 4px 0 0 4px; }
+  .usb-tongue i { position: absolute; top: 5px; width: 5px; height: 22px; background: #1a1c20; }
+  .usb-tongue i:nth-child(1){left:8px}
+  .usb-tongue i:nth-child(2){left:18px;height:14px;top:9px}
+  .usb-tongue i:nth-child(3){left:28px}
+
+  .hero-split {
+    display: grid; gap: 1.5rem; grid-template-columns: 1.15fr 0.85fr;
+    align-items: center; padding: clamp(1.25rem, 3vw, 2rem);
+  }
+  @media (max-width: 800px) { .hero-split { grid-template-columns: 1fr; } }
+
+  /* Section chrome */
+  section { padding: 2.75rem 0 0.15rem; }
+  .sec-label {
+    font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--dim); margin: 0 0 0.65rem;
+  }
+  h2 {
+    font-family: var(--serif); font-weight: 400;
+    font-size: clamp(1.5rem, 3vw, 2rem); margin: 0 0 0.5rem; letter-spacing: -0.02em;
+  }
+  .sec-note { color: var(--muted); max-width: 48ch; margin: 0 0 1.25rem; }
+
+  /* Numbered rows (papers / posts / roles) */
+  .rows { border-top: 1px solid var(--line); }
+  .row-item {
+    display: grid; grid-template-columns: 2.75rem 1fr auto; gap: 0.75rem 1rem;
+    align-items: baseline; padding: 1.05rem 0; border-bottom: 1px solid var(--line);
+    text-decoration: none; color: inherit;
+  }
+  .row-item:hover { color: var(--ink); }
+  .row-item:hover .row-go { color: var(--ink); transform: translateX(3px); }
+  .row-num { font-family: var(--mono); font-size: 0.75rem; color: var(--dim); }
+  .row-body strong { font-family: var(--serif); font-weight: 400; font-size: 1.08rem; display: block; }
+  .row-body p { margin: 0.25rem 0 0; color: var(--muted); font-size: 0.9rem; }
+  .row-go { font-family: var(--mono); font-size: 0.85rem; color: var(--dim); transition: transform .15s ease, color .15s ease; }
+
+  /* Feature grid — product strip */
+  .products { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+  .product { overflow: hidden; }
+  .product-visual {
+    height: 110px; display: grid; place-items: center;
+    border-bottom: 1px solid var(--line);
+    background:
+      radial-gradient(ellipse 80% 70% at 50% 50%, rgba(255,255,255,0.06), transparent 70%),
+      #101010;
+  }
+  .product-visual .glyph {
+    font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.2em; color: var(--muted);
+  }
+  .product h3 { font-family: var(--serif); font-weight: 400; font-size: 1.1rem; margin: 0 0 0.3rem; }
+  .product p { margin: 0; color: var(--muted); font-size: 0.9rem; }
+
+  /* Build steps */
+  .build { display: grid; gap: 0.85rem; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+  .build a {
+    display: block; text-decoration: none; color: inherit; padding: 1.2rem 1.25rem;
+  }
+  .build a:hover { border-color: rgba(255,255,255,0.28); }
+  .build .n { font-family: var(--mono); font-size: 0.72rem; color: var(--dim); letter-spacing: 0.08em; }
+  .build h3 { font-family: var(--serif); font-weight: 400; font-size: 1.15rem; margin: 0.4rem 0 0.35rem; }
+  .build p { margin: 0; color: var(--muted); font-size: 0.9rem; }
+  .build .go { margin-top: 0.75rem; font-family: var(--mono); font-size: 0.8rem; color: var(--ink); }
+
+  .term { font-family: var(--mono); font-size: 0.8rem; line-height: 1.65; color: var(--muted); }
+  .term .c { color: var(--ink); }
+  .term .m { color: var(--dim); }
+  .term .g { color: #b0b0a8; }
+
+  table { width: 100%; border-collapse: collapse; font-size: 0.93rem; }
+  th, td { text-align: left; padding: 0.55rem 0.45rem; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.07em; text-transform: uppercase; color: var(--dim); font-weight: 500; }
+  .table-wrap { overflow-x: auto; }
+
+  .g2 { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); }
+  .g3 { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
+  .g4 { display: grid; gap: 0.9rem; grid-template-columns: repeat(auto-fit, minmax(165px, 1fr)); }
+
+  .avatar {
+    width: 50px; height: 50px; border-radius: 50%; margin-bottom: 0.65rem;
+    background: #1a1a1a; border: 1px solid rgba(255,255,255,0.25);
+    display: grid; place-items: center; font-family: var(--serif); font-size: 1.1rem;
+    box-shadow: inset 1px 1px 3px rgba(255,255,255,0.08);
+  }
+  .role { font-family: var(--mono); font-size: 0.66rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--dim); margin: 0 0 0.3rem; }
+  .person p { margin: 0.3rem 0 0; color: var(--muted); font-size: 0.88rem; }
+
+  details { border-top: 1px solid var(--line); }
+  details:last-of-type { border-bottom: 1px solid var(--line); }
+  summary {
+    cursor: pointer; padding: 0.9rem 0; list-style: none;
+    font-family: var(--serif); font-size: 1.05rem; min-height: 44px;
+  }
+  summary::-webkit-details-marker { display: none; }
+  summary::after { content: "+"; float: right; color: var(--dim); font-family: var(--mono); }
+  details[open] summary::after { content: "−"; }
+  details .ans { padding: 0 0 0.95rem; color: var(--muted); font-size: 0.92rem; max-width: 56ch; }
+
+  .banner { text-align: center; padding: 1.75rem 1.25rem; }
+  .banner p { color: var(--muted); max-width: 40ch; margin: 0 auto 1rem; }
+  .contact {
+    font-family: var(--mono); font-size: 0.85rem; color: var(--ink);
+    margin-top: 0.5rem;
+  }
+
+  .pill {
+    display: inline-block; font-family: var(--mono); font-size: 0.66rem;
+    letter-spacing: 0.06em; padding: 0.35rem 0.6rem; border-radius: 999px;
+    border: 1px solid var(--line); color: var(--muted); margin: 0.15rem 0.2rem 0.15rem 0;
+  }
+
+  footer {
+    margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid var(--line);
+    color: var(--dim); font-size: 0.88rem;
+  }
+
+  .rv { opacity: 0; transform: translateY(16px); transition: opacity .55s ease, transform .55s cubic-bezier(.22,1,.36,1); }
+  .rv.in { opacity: 1; transform: none; }
+
+  @media (max-width: 560px) {
+    .row-item { grid-template-columns: 2rem 1fr; }
+    .row-go { display: none; }
+    .clay { border-radius: 22px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .marquee-track { animation: none; }
+    .rv { opacity: 1; transform: none; transition: none; }
+    .world, .usb { transition: none !important; }
+  }
+</style>
+</head>
+<body>
+<canvas id="oil" aria-hidden="true"></canvas>
+<div id="veil" aria-hidden="true"></div>
+<div id="grain" aria-hidden="true"></div>
+<p id="hint-oil" aria-hidden="true">move pointer · oil reveals</p>
+
+<div class="wrap">
+  <header class="nav">
+    <a class="brand" href="#top">
+      <span class="brand-mark" aria-hidden="true">
+        <svg width="20" height="12" viewBox="0 0 20 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="5" y="1" width="14" height="10" rx="1.5" fill="#f2f2f0"/>
+          <rect x="0" y="3" width="5" height="6" rx="0.5" fill="#9a9a96"/>
+          <rect x="7" y="3.5" width="10" height="1.5" fill="#0a0a0a"/>
+          <rect x="7" y="7" width="6" height="1.5" fill="#0a0a0a"/>
+        </svg>
+      </span>
+      <span class="brand-text">
+        <span class="brand-name">Research-in-a-Stick</span>
+        <span class="brand-tag">RIS · Offline</span>
+      </span>
+    </a>
+    <nav class="nav-links" aria-label="Primary">
+      <a href="#product">What it does</a>
+      <a href="#how">How to use</a>
+      <a href="#who">Who it’s for</a>
+      <a href="#faq">Questions</a>
+      </nav>
+  </header>
+
+  <!-- Marquee -->
+  <div class="marquee" aria-hidden="true">
+    <div class="marquee-track" id="marqueeTrack">
+      <span>R I S <b>·</b> Works without internet <b>·</b> On a USB stick <b>·</b> Your files stay private <b>·</b> </span>
+      <span>R I S <b>·</b> Works without internet <b>·</b> On a USB stick <b>·</b> Your files stay private <b>·</b> </span>
+      <span>R I S <b>·</b> Works without internet <b>·</b> On a USB stick <b>·</b> Your files stay private <b>·</b> </span>
+      <span>R I S <b>·</b> Works without internet <b>·</b> On a USB stick <b>·</b> Your files stay private <b>·</b> </span>
+    </div>
+  </div>
+
+  <!-- Hero -->
+  <section id="top" class="hero">
+    <p class="hero-kicker">Research-in-a-Stick</p>
+    <h1>Hello,<br /><span class="it">I’m RIS</span></h1>
+    <p class="hero-lede">
+      Imagine a tiny library and a helpful tutor that live on a USB stick.
+      Plug the stick into a computer, open a page in the browser, and you can
+      <strong style="color:var(--ink);font-weight:600">ask questions, look up notes, read an offline encyclopedia,
+      and format references</strong> — even when you have no internet and no data bundle.
+    </p>
+    <div class="hero-actions">
+      <a class="btn" href="#how">How to use it</a>
+      <a class="btn ghost" href="#product">What you get</a>
+    </div>
+  </section>
+
+  <div class="scene">
+    <div class="world" id="world">
+      <div class="clay card3d hero-split">
+        <div>
+          <p class="sec-label">In one sentence</p>
+          <h2 style="margin-top:0">Your research helper, without the internet bill</h2>
+          <p class="sec-note" style="margin-bottom:0">
+            Most AI chat tools need a constant connection. RIS is different: the “brain”
+            and the books sit on the stick itself. Move your mouse — you can see the surface react.
+          </p>
+        </div>
+        <div class="usb-stage" aria-hidden="true">
+          <div class="usb" id="usb3d">
+            <div class="usb-tongue"><i></i><i></i><i></i></div>
+            <div class="usb-face f">RIS</div>
+            <div class="usb-face bk"></div>
+            <div class="usb-face tp"></div>
+            <div class="usb-face bt"></div>
+            <div class="usb-face lf"></div>
+            <div class="usb-face rt"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Product cards -->
+  <section id="product" class="rv">
+    <p class="sec-label">What you get</p>
+    <h2>Five things on one stick</h2>
+    <p class="sec-note">No app store. No monthly plan to start. Just a USB drive and a computer.</p>
+    <div class="products">
+      <article class="glass product">
+        <div class="product-visual"><span class="glyph">ASK</span></div>
+        <div class="pad">
+          <h3>Chat like with a tutor</h3>
+          <p>Type a question in plain English. The answer is generated on the computer itself — not sent to a company server.</p>
+        </div>
+      </article>
+      <article class="glass product">
+        <div class="product-visual"><span class="glyph">NOTES</span></div>
+        <div class="pad">
+          <h3>A pocket library</h3>
+          <p>Short, easy-to-search notes on health, farming, school topics, and public policy — ready to open offline.</p>
+        </div>
+      </article>
+      <article class="glass product">
+        <div class="product-visual"><span class="glyph">WIKI</span></div>
+        <div class="pad">
+          <h3>Encyclopedia without the net</h3>
+          <p>A copy of wiki-style articles (including medical topics) that you can browse like a website — while offline.</p>
+        </div>
+      </article>
+      <article class="glass product">
+        <div class="product-visual"><span class="glyph">CITE</span></div>
+        <div class="pad">
+          <h3>Your papers &amp; references</h3>
+          <p>Drop in a PDF, ask about it, and format references in the styles schools expect (APA, Vancouver, Harvard).</p>
+        </div>
+      </article>
+      <article class="glass product">
+        <div class="product-visual"><span class="glyph">DATA</span></div>
+        <div class="pad">
+          <h3>Simple survey summaries</h3>
+          <p>Upload a spreadsheet of answers and get a quick picture of the numbers — useful for class projects and field work.</p>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- How — plain steps -->
+  <section id="how" class="rv">
+    <p class="sec-label">How to use</p>
+    <h2>Three steps. That’s it.</h2>
+    <p class="sec-note">If you can use a USB drive, you can use RIS.</p>
+    <ol class="rows" style="list-style:none;padding:0;margin:0">
+      <li class="row-item" style="cursor:default">
+        <span class="row-num">01</span>
+        <div class="row-body">
+          <strong>Plug in the stick</strong>
+          <p>Insert the USB drive into a Windows computer (most school and office PCs work).</p>
+        </div>
+        <span class="row-go"></span>
+      </li>
+      <li class="row-item" style="cursor:default">
+        <span class="row-num">02</span>
+        <div class="row-body">
+          <strong>Double-click “launcher”</strong>
+          <p>Open the stick in File Explorer and double-click <code>launcher.bat</code>. A black window may flash — that’s normal.</p>
+        </div>
+        <span class="row-go"></span>
+      </li>
+      <li class="row-item" style="cursor:default">
+        <span class="row-num">03</span>
+        <div class="row-body">
+          <strong>Use it in your browser</strong>
+          <p>A page opens on the computer (like <code>127.0.0.1:8765</code>). Type a question. The first answer can take half a minute while everything wakes up; later answers are faster.</p>
+        </div>
+        <span class="row-go"></span>
+      </li>
+    </ol>
+    <p class="sec-note" style="margin-top:1rem">
+      Tip: keep the stick plugged in while you work. Unplug the Wi‑Fi if you like — RIS still answers.
+    </p>
+  </section>
+
+  <!-- Who -->
+  <section id="who" class="rv">
+    <p class="sec-label">Who it’s for</p>
+    <h2>Students, researchers, field workers</h2>
+    <div class="g2">
+      <div class="clay pad"><h3>Learners</h3><p style="margin:0;color:var(--muted);font-size:0.92rem">Explain a topic, check notes, format a reference list — without burning a daily data bundle.</p></div>
+      <div class="clay pad"><h3>Researchers</h3><p style="margin:0;color:var(--muted);font-size:0.92rem">Keep drafts and unpublished notes on your own device, not on someone else’s server.</p></div>
+      <div class="clay pad"><h3>Health &amp; farming teams</h3><p style="margin:0;color:var(--muted);font-size:0.92rem">Carry trusted reference packs into places where the network is weak or expensive.</p></div>
+      <div class="clay pad"><h3>Schools &amp; training centres</h3><p style="margin:0;color:var(--muted);font-size:0.92rem">One prepared stick can serve many shared computers in a lab.</p></div>
+    </div>
+  </section>
+
+  <!-- Tech collapsed -->
+  <section id="tech" class="rv">
+    <p class="sec-label">For the curious</p>
+    <h2>How it works under the hood</h2>
+    <p class="sec-note">You do not need this section to use RIS. It’s here if you want the details.</p>
+    <details>
+      <summary>What’s inside the stick?</summary>
+      <div class="ans">
+        A small AI program that runs on the computer’s processor (no fancy graphics card required),
+        a set of notes and wiki articles, a simple local web page for chatting, and a one-click start script.
+        Nothing is installed permanently on the PC unless you choose to.
+      </div>
+    </details>
+    <details>
+      <summary>Does it phone home?</summary>
+      <div class="ans">
+        No. Questions and files stay on that computer and the stick. There is no account to create
+        and no tracking built into the core app.
+      </div>
+    </details>
+    <details>
+      <summary>Which computers work?</summary>
+      <div class="ans">
+        Windows PCs with a normal amount of memory (about 4&nbsp;GB or more) and a USB port.
+        Older laptops are fine — it uses the processor, not a gaming GPU.
+      </div>
+    </details>
+  </section>
+
+  <!-- Docs as numbered rows -->
+  <section id="docs" class="rv">
+    <p class="sec-label">Docs</p>
+    <h2>Folder is the manual</h2>
+    <div class="rows">
+      <a class="row-item" href="BUSINESS_PLAN.md">
+        <span class="row-num">01</span>
+        <div class="row-body"><strong>Business plan</strong><p>Pilot model, market assumptions, KPIs</p></div>
+        <span class="row-go">→</span>
+      </a>
+      <a class="row-item" href="RIS_Pitch_OnePager.docx">
+        <span class="row-num">02</span>
+        <div class="row-body"><strong>Pitch one-pager</strong><p>Word handout for partners and judges</p></div>
+        <span class="row-go">→</span>
+      </a>
+      <a class="row-item" href="DESIGN.md">
+        <span class="row-num">03</span>
+        <div class="row-body"><strong>Design system</strong><p>Black &amp; white tokens, clay/glass, oil field</p></div>
+        <span class="row-go">→</span>
+      </a>
+      <a class="row-item" href="START_HERE.txt">
+        <span class="row-num">02</span>
+        <div class="row-body"><strong>Quick start guide</strong><p>Short instructions for launching on a new computer</p></div>
+        <span class="row-go">→</span>
+      </a>
+      <a class="row-item" href="BUSINESS_PLAN.md">
+        <span class="row-num">03</span>
+        <div class="row-body"><strong>Business plan</strong><p>For partners who want the full picture</p></div>
+        <span class="row-go">→</span>
+      </a>
+      <div class="row-item" style="cursor:default">
+        <span class="row-num">04</span>
+        <div class="row-body"><strong>Need help?</strong><p>Ask a friend who is comfortable with computers, or email the team below.</p></div>
+        <span class="row-go"></span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Plans -->
+  <section id="plans" class="rv">
+    <p class="sec-label">Plans</p>
+    <h2>Start free</h2>
+    <div class="g3">
+      <div class="glass pad"><p class="sec-label" style="margin:0 0 0.4rem">Community</p><h3 style="margin:0 0 0.35rem">Free</h3><p style="margin:0;color:var(--muted);font-size:0.9rem">The full stick experience: chat, notes, encyclopedia, references.</p></div>
+      <div class="clay pad"><p class="sec-label" style="margin:0 0 0.4rem">Student</p><h3 style="margin:0 0 0.35rem">USD 5–15 / year</h3><p style="margin:0;color:var(--muted);font-size:0.9rem">Bigger offline library and yearly content updates.</p></div>
+      <div class="glass pad"><p class="sec-label" style="margin:0 0 0.4rem">School / campus</p><h3 style="margin:0 0 0.35rem">USD 1–4k / year</h3><p style="margin:0;color:var(--muted);font-size:0.9rem">Help preparing many sticks, training, and custom notes for your courses.</p></div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+
+  <!-- FAQ -->
+  <section id="faq" class="rv">
+    <p class="sec-label">Questions</p>
+    <h2>Common questions</h2>
+    <details><summary>Is this the same as ChatGPT?</summary><div class="ans">Not quite. ChatGPT lives on the internet. RIS lives on your USB stick and answers without sending your questions to a company server.</div></details>
+    <details><summary>Do I need to be good with computers?</summary><div class="ans">No. If you can plug in a USB drive and double-click a file, you can use it. A friend or lab assistant can help the first time.</div></details>
+    <details><summary>What if there is no internet?</summary><div class="ans">That is the point. RIS is designed for offline use. Internet is only needed if you want to download bigger content packs later.</div></details>
+    <details><summary>Are my files private?</summary><div class="ans">Your documents stay on the stick and the computer you use. There is no account and no built-in tracking.</div></details>
+    <details><summary>Which computer do I need?</summary><div class="ans">A Windows laptop or desktop with a USB port. A fairly ordinary machine is enough — you do not need a gaming PC.</div></details>
+  </section>
+
+  <section id="get" class="rv">
+    <div class="clay banner">
+      <p class="sec-label">Get started</p>
+      <h2>Plug in. Double-click. Ask anything.</h2>
+      <p>Need the short guide? Open <code>START_HERE.txt</code> on the stick.</p>
+      <div class="hero-actions" style="justify-content:center">
+        <a class="btn" href="START_HERE.txt">Read the quick start</a>
+        <a class="btn ghost" href="#how">See the 3 steps</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="brand" style="margin-bottom:0.75rem">
+      <span class="brand-mark" aria-hidden="true">
+        <svg width="20" height="12" viewBox="0 0 20 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="5" y="1" width="14" height="10" rx="1.5" fill="#f2f2f0"/>
+          <rect x="0" y="3" width="5" height="6" rx="0.5" fill="#9a9a96"/>
+          <rect x="7" y="3.5" width="10" height="1.5" fill="#0a0a0a"/>
+          <rect x="7" y="7" width="6" height="1.5" fill="#0a0a0a"/>
+        </svg>
+      </span>
+      <span class="brand-text">
+        <span class="brand-name">Research-in-a-Stick</span>
+        <span class="brand-tag">Local · Private · Portable</span>
+      </span>
+    </div>
+    <p>A USB stick that helps with research — even without internet.</p>
+    <p class="contact">[your@email.com]</p>
+    <p>© [Year] [Your name or organisation]</p>
+  </footer>
+</div>
+
+<script>
+(function () {
+  var reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var fine = matchMedia("(pointer: fine)").matches;
+  var world = document.getElementById("world");
+  var usb = document.getElementById("usb3d");
+
+  var targetRX = 0, targetRY = 0, rx = 0, ry = 0;
+  var usbRX = -16, usbRY = -30, tRX = -16, tRY = -30;
+
+  if (fine && !reduced) {
+    addEventListener("pointermove", function (e) {
+      var nx = e.clientX / innerWidth - 0.5;
+      var ny = e.clientY / innerHeight - 0.5;
+      targetRY = nx * 12;
+      targetRX = -ny * 7;
+      tRY = -30 + nx * 16;
+      tRX = -16 + ny * 9;
+    }, { passive: true });
+  }
+
+  var drag = false, lx = 0, ly = 0;
+  addEventListener("pointerdown", function (e) {
+    if (e.target.closest("a,button,details,summary")) return;
+    drag = true; lx = e.clientX; ly = e.clientY;
+  });
+  addEventListener("pointerup", function () { drag = false; });
+  addEventListener("pointermove", function (e) {
+    if (!drag || reduced) return;
+    targetRY += (e.clientX - lx) * 0.1;
+    targetRX -= (e.clientY - ly) * 0.07;
+    targetRX = Math.max(-24, Math.min(24, targetRX));
+    targetRY = Math.max(-32, Math.min(32, targetRY));
+    tRY = -30 + targetRY * 0.55;
+    lx = e.clientX; ly = e.clientY;
+  }, { passive: true });
+
+  function tick() {
+    if (!reduced) {
+      var k = 0.1;
+      rx += (targetRX - rx) * k;
+      ry += (targetRY - ry) * k;
+      usbRX += (tRX - usbRX) * k;
+      usbRY += (tRY - usbRY) * k;
+      if (world) world.style.transform = "rotateX(" + rx.toFixed(2) + "deg) rotateY(" + ry.toFixed(2) + "deg)";
+      if (usb) {
+        var bob = Math.sin(performance.now() * 0.0014) * 8;
+        usb.style.transform =
+          "translate3d(0," + bob.toFixed(1) + "px,0) rotateX(" + usbRX.toFixed(2) +
+          "deg) rotateY(" + usbRY.toFixed(2) + "deg) rotateZ(4deg)";
+      }
+    }
+    requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+
+  var io = new IntersectionObserver(function (es) {
+    es.forEach(function (en) { if (en.isIntersecting) en.target.classList.add("in"); });
+  }, { threshold: 0.1, rootMargin: "0px 0px -30px 0px" });
+  document.querySelectorAll(".rv").forEach(function (el) { io.observe(el); });
+  if (!("IntersectionObserver" in window)) {
+    document.querySelectorAll(".rv").forEach(function (el) { el.classList.add("in"); });
+  }
+
+  /* Monochrome oil — reveal under pointer */
+  var canvas = document.getElementById("oil");
+  var gl = null;
+  try { gl = canvas.getContext("webgl", { antialias: false, alpha: false }); } catch (e) {}
+  if (!gl) { if (canvas) canvas.style.display = "none"; return; }
+
+  var vs = gl.createShader(gl.VERTEX_SHADER);
+  gl.shaderSource(vs, "attribute vec2 a;void main(){gl_Position=vec4(a,0.,1.);}");
+  gl.compileShader(vs);
+  var fs = gl.createShader(gl.FRAGMENT_SHADER);
+  gl.shaderSource(fs, [
+    "precision mediump float;",
+    "uniform vec2 R; uniform float T; uniform vec2 M;",
+    "float h(vec2 p){return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453);}",
+    "float n(vec2 p){vec2 i=floor(p),f=fract(p);float a=h(i),b=h(i+vec2(1,0)),c=h(i+vec2(0,1)),d=h(i+vec2(1,1));vec2 u=f*f*(3.-2.*f);return mix(a,b,u.x)+(c-a)*u.y*(1.-u.x)+(d-b)*u.x*u.y;}",
+    "float f(vec2 p){float v=0.,a=.5;for(int i=0;i<5;i++){v+=a*n(p);p*=2.03;a*=.5;}return v;}",
+    "void main(){",
+    " vec2 p=(gl_FragCoord.xy-.5*R)/min(R.x,R.y);",
+    " vec2 m=(M-.5)*vec2(R.x/max(R.y,1.),1.);",
+    " float t=T*.12; float d=length(p-m);",
+    " vec2 pull=(p-m)*exp(-d*1.7)*1.35;",
+    " vec2 q=p*1.55+pull;",
+    " float n1=f(q+vec2(t,-t*.75));",
+    " float n2=f(q*1.15+vec2(-t*.55,t)+n1*1.1);",
+    " float band=n1*.5+n2*.5;",
+    " float ring=sin(band*18.-d*6.+T*.45)*.5+.5;",
+    " float film=smoothstep(.18,.88,band);",
+    " float reveal=exp(-d*2.4);",
+    " float glow=exp(-d*4.2);",
+    " vec3 col=mix(vec3(.02),vec3(.22),film*reveal);",
+    " col=mix(col,vec3(.52),ring*film*reveal*.55);",
+    " col+=vec3(.18)*glow*film;",
+    " col*=1.-.55*length(p*.85);",
+    " gl_FragColor=vec4(col,1.);",
+    "}"
+  ].join("\n"));
+  gl.compileShader(fs);
+  var prog = gl.createProgram();
+  gl.attachShader(prog, vs); gl.attachShader(prog, fs); gl.linkProgram(prog);
+  if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) { canvas.style.display = "none"; return; }
+  gl.useProgram(prog);
+  var buf = gl.createBuffer();
+  gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1,1,-1,-1,1,1,1]), gl.STATIC_DRAW);
+  var loc = gl.getAttribLocation(prog, "a");
+  gl.enableVertexAttribArray(loc);
+  gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
+  var uR = gl.getUniformLocation(prog, "R");
+  var uT = gl.getUniformLocation(prog, "T");
+  var uM = gl.getUniformLocation(prog, "M");
+  var mx = 0.5, my = 0.45, tmx = 0.5, tmy = 0.45;
+  addEventListener("pointermove", function (e) {
+    document.body.classList.add("has-pointer");
+    tmx = e.clientX / innerWidth; tmy = e.clientY / innerHeight;
+  }, { passive: true });
+  function resizeOil() {
+    var dpr = Math.min(devicePixelRatio || 1, 1.25);
+    canvas.width = Math.floor(innerWidth * dpr);
+    canvas.height = Math.floor(innerHeight * dpr);
+    gl.viewport(0, 0, canvas.width, canvas.height);
+  }
+  addEventListener("resize", resizeOil);
+  resizeOil();
+  var t0 = performance.now();
+  function oilFrame(now) {
+    mx += (tmx - mx) * 0.12;
+    my += (tmy - my) * 0.12;
+    gl.uniform2f(uR, canvas.width, canvas.height);
+    gl.uniform1f(uT, (now - t0) * 0.001);
+    gl.uniform2f(uM, mx, 1 - my);
+    gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+    if (!reduced) requestAnimationFrame(oilFrame);
+  }
+  if (reduced) oilFrame(performance.now());
+  else requestAnimationFrame(oilFrame);
+})();
+</script>
+</body>
+</html>
