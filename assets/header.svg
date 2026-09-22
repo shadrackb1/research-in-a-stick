@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="160" viewBox="0 0 720 160" role="img" aria-label="Research-in-a-Stick">
+  <rect width="720" height="160" fill="#F8FAFC"/>
+  <!-- USB stick body -->
+  <g transform="translate(48,42)">
+    <rect x="0" y="18" width="78" height="44" rx="6" fill="#0F172A"/>
+    <rect x="78" y="28" width="36" height="24" rx="3" fill="#0D9488"/>
+    <rect x="108" y="34" width="14" height="12" rx="2" fill="#2DD4BF"/>
+    <rect x="14" y="30" width="36" height="8" rx="2" fill="#2DD4BF" opacity="0.85">
+      <animate attributeName="opacity" values="0.35;1;0.35" dur="2.4s" repeatCount="indefinite"/>
+    </rect>
+    <rect x="14" y="44" width="22" height="6" rx="2" fill="#D97706"/>
+  </g>
+  <!-- offline nodes -->
+  <g fill="none" stroke="#0D9488" stroke-width="1.5">
+    <circle cx="210" cy="52" r="8"/>
+    <circle cx="250" cy="78" r="8"/>
+    <circle cx="210" cy="104" r="8"/>
+    <line x1="218" y1="56" x2="242" y2="74"/>
+    <line x1="242" y1="82" x2="218" y2="100"/>
+    <line x1="210" y1="60" x2="210" y2="96"/>
+  </g>
+  <circle cx="250" cy="78" r="3" fill="#D97706"/>
+  <!-- wordmark -->
+  <text x="300" y="62" font-family="ui-monospace,Menlo,Consolas,monospace" font-size="22" fill="#0F172A">Research-in-a-Stick</text>
+  <text x="300" y="92" font-family="ui-monospace,Menlo,Consolas,monospace" font-size="13" fill="#0D9488">local model · library · wiki · citations</text>
+  <text x="300" y="118" font-family="ui-monospace,Menlo,Consolas,monospace" font-size="12" fill="#D97706">no cloud. no keys. no data bundle.</text>
+  <!-- amber accent bar -->
+  <rect x="300" y="128" width="72" height="3" rx="1.5" fill="#FBBF24"/>
+</svg>
