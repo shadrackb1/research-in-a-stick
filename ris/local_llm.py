@@ -309,7 +309,8 @@ def status() -> dict:
     return {
         "ready": bool(server and model),
         "running": running,
-        "model_name": model.name if model else None,
+        "model_name": LOCAL_MODEL_NAME if model else None,
+        "model_file": model.name if model else None,
         "model_mb": round(model.stat().st_size / 1024 / 1024, 1) if model else None,
         "bin_path": str(server) if server else None,
         "platform": f"{platform.system()} {platform.machine()}",

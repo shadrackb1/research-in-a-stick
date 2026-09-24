@@ -14,7 +14,7 @@ import urllib.request
 from typing import Any
 
 from . import local_llm
-from .config import DEFAULT_MODEL, OLLAMA_URL
+from .config import DEFAULT_MODEL, LOCAL_MODEL_NAME, OLLAMA_URL
 from .library import KnowledgeLibrary
 from .rag import DocumentStore
 from .skills import SkillRouter, build_tool_block, catalog, catalog_prompt
@@ -333,7 +333,7 @@ class ResearchAssistant:
             "ollama": ollama_available(),
             "local_model": local.get("running", False),
             "local_model_ready": local.get("ready", False),
-            "local_model_name": local.get("model_name"),
+            "local_model_name": LOCAL_MODEL_NAME if local.get("ready") else None,
             "mode": mode,
             "skills": [s["name"] for s in catalog()],
             "wiki": wst,
