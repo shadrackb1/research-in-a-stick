@@ -27,6 +27,7 @@
         <button type="button" class="nav-item" data-view="cite">Citations</button>
         <button type="button" class="nav-item" data-view="data">Data</button>
         <button type="button" class="nav-item" data-view="wiki">Offline Wiki</button>
+        <button type="button" class="nav-item" data-view="browser">RIS Browser</button>
       </nav>
 
       <div class="side-foot">
@@ -131,6 +132,39 @@
           </form>
           <div id="wikiStatus" class="card-out muted">Checking packs…</div>
           <div id="wikiBooks" class="list"></div>
+        </div>
+      </section>
+
+      <!-- RIS BROWSER -->
+      <section class="view" id="view-browser">
+        <div class="ris-browser" id="risBrowser">
+          <div class="rb-tabstrip">
+            <div class="rb-tab active" id="rbTab">RIS Browser</div>
+            <div class="rb-tab-spacer"></div>
+            <div class="rb-shield" title="Offline shield — external sites blocked">
+              <span class="rb-shield-dot"></span> Shields on · offline only
+            </div>
+          </div>
+          <div class="rb-toolbar">
+            <button type="button" class="rb-btn" id="rbBack" title="Back">←</button>
+            <button type="button" class="rb-btn" id="rbFwd" title="Forward">→</button>
+            <button type="button" class="rb-btn" id="rbReload" title="Reload">↻</button>
+            <form class="rb-addr" id="rbAddrForm">
+              <span class="rb-lock" title="Local only">🔒</span>
+              <input id="rbUrl" placeholder="ris://home" spellcheck="false" autocomplete="off" />
+            </form>
+            <button type="button" class="rb-btn" id="rbGo" title="Go">Go</button>
+          </div>
+          <div class="rb-bookmarks">
+            <button type="button" class="rb-bm" data-url="ris://home">Home</button>
+            <button type="button" class="rb-bm" data-url="ris://wiki">Offline wiki</button>
+            <button type="button" class="rb-bm" data-url="ris://site">Product site</button>
+            <button type="button" class="rb-bm" data-url="ris://library">Library</button>
+            <button type="button" class="rb-bm" data-url="http://127.0.0.1:8765">RIS app</button>
+            <button type="button" class="rb-bm" data-url="http://127.0.0.1:8767">Kiwix</button>
+          </div>
+          <iframe class="rb-view" id="rbFrame" title="RIS Browser content" sandbox="allow-same-origin allow-forms"></iframe>
+          <div class="rb-status" id="rbStatus">Offline only · external sites are blocked</div>
         </div>
       </section>
     </main>

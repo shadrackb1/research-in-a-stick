@@ -94,6 +94,126 @@ body {
 .view { display: none; flex: 1; min-height: 0; flex-direction: column; }
 .view.active { display: flex; }
 
+/* ——— RIS Browser (Brave-like, offline) ——— */
+.ris-browser {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  margin: 0;
+  border-left: 1px solid var(--line);
+  border-right: 1px solid var(--line);
+  background: var(--bg);
+}
+.rb-tabstrip {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.35rem 0.5rem 0;
+  background: var(--elev);
+  border-bottom: 1px solid var(--line);
+}
+.rb-tab {
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-bottom: 0;
+  border-radius: 10px 10px 0 0;
+  padding: 0.4rem 0.9rem;
+  font-size: 0.8rem;
+  color: var(--ink);
+}
+.rb-tab-spacer { flex: 1; }
+.rb-shield {
+  font-size: 0.72rem;
+  color: #6dce8a;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding-right: 0.4rem;
+}
+.rb-shield-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: #6dce8a;
+  box-shadow: 0 0 6px #6dce8a;
+}
+.rb-toolbar {
+  display: flex;
+  gap: 0.35rem;
+  align-items: center;
+  padding: 0.45rem 0.55rem;
+  background: var(--elev);
+  border-bottom: 1px solid var(--line);
+}
+.rb-btn {
+  background: var(--bg);
+  border: 1px solid var(--line);
+  color: var(--ink);
+  border-radius: 8px;
+  min-width: 34px;
+  min-height: 34px;
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.9rem;
+}
+.rb-btn:hover { border-color: #666; }
+.rb-btn:disabled { opacity: 0.4; cursor: default; }
+.rb-addr {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 0.15rem 0.75rem;
+  min-height: 36px;
+}
+.rb-addr input {
+  flex: 1;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: var(--ink);
+  font-size: 0.85rem;
+  padding: 0;
+  width: auto;
+}
+.rb-lock { font-size: 0.75rem; opacity: 0.85; }
+.rb-bookmarks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  padding: 0.4rem 0.55rem;
+  background: var(--bg);
+  border-bottom: 1px solid var(--line);
+}
+.rb-bm {
+  background: var(--elev);
+  border: 1px solid var(--line);
+  color: var(--muted);
+  border-radius: 6px;
+  font-size: 0.75rem;
+  padding: 0.3rem 0.55rem;
+  cursor: pointer;
+  min-height: 32px;
+}
+.rb-bm:hover { color: var(--ink); border-color: #666; }
+.rb-view {
+  flex: 1;
+  width: 100%;
+  min-height: 0;
+  border: 0;
+  background: #fff;
+}
+.rb-status {
+  font-size: 0.72rem;
+  color: var(--muted);
+  padding: 0.35rem 0.65rem;
+  border-top: 1px solid var(--line);
+  background: var(--elev);
+}
+
+
 /* Chat */
 .chat-scroll { flex: 1; overflow: auto; scroll-behavior: smooth; }
 .chat-inner {

@@ -46,6 +46,7 @@ function showView(name) {
   if (name === "library") loadLibrary();
   if (name === "rag") loadDocs();
   if (name === "wiki") loadWiki();
+  if (name === "browser") initBrowser();
 }
 
 $$(".nav-item").forEach((btn) => btn.addEventListener("click", () => showView(btn.dataset.view)));
@@ -357,6 +358,170 @@ $("#wikiForm").addEventListener("submit", async (e) => {
   const st = await api("/api/wiki").catch(() => null);
   if (st?.url) window.open(`${st.url}/search?pattern=${encodeURIComponent(q)}`, "_blank", "noopener");
 });
+
+/* ——— RIS Browser (offline, Brave-inspired) ——— */
+const rb = { history: [], idx: -1, ready: false };
+
+function isLocalUrl(u) {
+  if (!u) return false;
+  const s = u.trim();
+  if (s.startsWith("ris://")) return true;
+  if (s.startsWith("http://127.0.0.1") || s.startsWith("http://localhost")) return true;
+  if (s.startsWith("http://localhost:")) return true;
+  return false;
+}
+
+function homeHtml() {
+  return `<!DOCTYPE html><html><head><meta charset="utf-8"><title>RIS Browser</title>
+<style>
+  body{font-family:system-ui,sans-serif;background:#0f1115;color:#e8e8e8;margin:0;padding:2rem;max-width:40rem}
+  h1{font-weight:600;font-size:1.4rem;margin:0 0 .5rem}
+  p{color:#9aa0a6;line-height:1.5}
+  a{color:#e8c27a}
+  ul{padding-left:1.1rem;color:#9aa0a6} li{margin:.35rem 0}
+  .badge{display:inline-block;border:1px solid #3d3d3d;border-radius:99px;padding:.2rem .6rem;font-size:.75rem;color:#6dce8a}
+</style></head><body>
+  <p class="badge">RIS Browser · offline only</p>
+  <h1>Research-in-a-Stick</h1>
+  <p>Your Brave-style browser for content that never leaves this machine. External websites are blocked.</p>
+  <p><strong>Open</strong></p>
+  <ul>
+    <li><a href="ris://wiki">Offline wiki</a></li>
+    <li><a href="ris://library">Knowledge library</a></li>
+    <li><a href="http://127.0.0.1:8765">RIS chat app</a></li>
+    <li><a href="http://127.0.0.1:8767">Kiwix wiki server</a></li>
+  </ul>
+  <p>Type a <code>ris://</code> or <code>127.0.0.1</code> address in the bar. Internet URLs are blocked on purpose.</p>
+</body></html>`;
+}
+
+function libraryHtml() {
+  return `<!DOCTYPE html><html><head><meta charset="utf-8"><title>Library</title>
+<style>body{font-family:system-ui,sans-serif;background:#0f1115;color:#e8e8e8;padding:1.5rem;max-width:40rem}
+h1{font-size:1.2rem} a{color:#e8c27a} p{color:#9aa0a6}</style></head><body>
+  <h1>Knowledge library</h1>
+  <p>Open the full library in the RIS app:</p>
+  <p><a href="http://127.0.0.1:8765">RIS → Library</a></p>
+  <p class="muted">Notes ship on the stick under <code>data/library/</code>.</p>
+</body></html>`;
+}
+
+function resolveUrl(raw) {
+  let u = (raw || "").trim();
+  if (!u) u = "ris://home";
+  if (u === "ris://home") return { kind: "html", html: homeHtml(), label: "ris://home" };
+  if (u === "ris://library") return { kind: "html", html: libraryHtml(), label: "ris://library" };
+  if (u === "ris://wiki" || u === "ris://site") {
+    return { kind: "wiki", label: u === "ris://wiki" ? "ris://wiki" : "ris://site", which: u };
+  }
+  if (isLocalUrl(u)) {
+    if (u.startsWith("ris://")) return { kind: "html", html: homeHtml(), label: u };
+    return { kind: "frame", url: u, label: u };
+  }
+  return { kind: "blocked", label: u };
+}
+
+async function rbNavigate(raw, push = true) {
+  const frame = $("#rbFrame");
+  const status = $("#rbStatus");
+  const addr = $("#rbUrl");
+  const res = resolveUrl(raw);
+
+  if (res.kind === "blocked") {
+    status.textContent = `Blocked: ${raw} — RIS Browser only loads local / offline addresses`;
+    status.style.color = "#e07a7a";
+    frame.removeAttribute("src");
+    frame.srcdoc = `<!DOCTYPE html><html><body style="font-family:system-ui;background:#0f1115;color:#e8e8e8;padding:2rem;max-width:36rem">
+      <h1 style="font-size:1.2rem">Blocked by offline shield</h1>
+      <p style="color:#9aa0a6">RIS Browser does not open external sites. Stay on <code>ris://</code> or <code>127.0.0.1</code>.</p>
+      <p><a style="color:#e8c27a" href="ris://home">← Back to home</a></p></body></html>`;
+    if (push && addr.value !== raw) { /* keep typed blocked url in bar */ }
+    $("#rbUrl").value = raw;
+    return;
+  }
+
+  status.style.color = "";
+  $("#rbUrl").value = res.label || raw;
+
+  if (push) {
+    if (rb.idx < rb.history.length - 1) rb.history = rb.history.slice(0, rb.idx + 1);
+    if (rb.history[rb.history.length - 1] !== res.label) {
+      rb.history.push(res.label);
+      rb.idx = rb.history.length - 1;
+    }
+  }
+  updateNavBtns();
+
+  if (res.kind === "html") {
+    frame.removeAttribute("src");
+    frame.srcdoc = res.html;
+    status.textContent = "Local page · offline";
+    return;
+  }
+
+  if (res.kind === "wiki") {
+    status.textContent = "Starting offline wiki…";
+    try { await api("/api/wiki_start", { method: "POST", headers: { "Content-Type": "application/json" }, body: "{}" }); } catch {}
+    const st = await api("/api/wiki").catch(() => null);
+    if (st?.url) {
+      frame.srcdoc = "";
+      frame.removeAttribute("srcdoc");
+      frame.src = res.which === "ris://wiki" ? `${st.url}/` : `http://127.0.0.1:8765/`;
+      status.textContent = `Connected to ${st.url}`;
+      return;
+    }
+    frame.srcdoc = homeHtml();
+    status.textContent = "Wiki server not ready — click Start in Offline Wiki";
+    return;
+  }
+
+  // frame URL
+  frame.removeAttribute("srcdoc");
+  frame.src = res.url;
+  status.textContent = `Loading ${res.url} (local only)…`;
+}
+
+function updateNavBtns() {
+  const back = $("#rbBack");
+  const fwd = $("#rbFwd");
+  if (back) back.disabled = rb.idx <= 0;
+  if (fwd) fwd.disabled = rb.idx >= rb.history.length - 1;
+}
+
+function initBrowser() {
+  if (rb.ready) return;
+  rb.ready = true;
+  $("#rbAddrForm").addEventListener("submit", (e) => {
+    e.preventDefault();
+    rbNavigate($("#rbUrl").value);
+  });
+  $("#rbGo").addEventListener("click", () => rbNavigate($("#rbUrl").value));
+  $("#rbReload").addEventListener("click", () => {
+    const cur = rb.history[rb.idx] || "ris://home";
+    rbNavigate(cur, false);
+  });
+  $("#rbBack").addEventListener("click", () => {
+    if (rb.idx > 0) { rb.idx--; rbNavigate(rb.history[rb.idx], false); }
+  });
+  $("#rbFwd").addEventListener("click", () => {
+    if (rb.idx < rb.history.length - 1) { rb.idx++; rbNavigate(rb.history[rb.idx], false); }
+  });
+  $$(".rb-bm").forEach((b) => b.addEventListener("click", () => rbNavigate(b.dataset.url)));
+  const frame = $("#rbFrame");
+  frame.addEventListener("load", () => {
+    try {
+      const doc = frame.contentDocument;
+      if (!doc) return;
+      doc.addEventListener("click", (ev) => {
+        const a = ev.target.closest("a[href]");
+        if (!a) return;
+        ev.preventDefault();
+        rbNavigate(a.getAttribute("href"));
+      });
+    } catch (e) { /* cross-origin frames */ }
+  });
+  rbNavigate("ris://home", true);
+}
 
 /* Init */
 ensureWelcome();
