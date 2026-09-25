@@ -3,7 +3,7 @@ from __future__ import annotations
 import json, mimetypes, re, traceback
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
-from urllib.parse import urlparse
+from urllib.parse import parse_qs, urlparse
 from . import analysis, citations, wiki
 from .ai import ResearchAssistant
 from .config import HOST, PORT, STATIC, ensure_dirs
@@ -36,10 +36,10 @@ class Handler(BaseHTTPRequestHandler):
         self.end_headers()
         self.wfile.write(body)
 
-    def _text(self, text, status=200):
+    def _text(self, text, status=200, ctype: str = "text/plain; charset=utf-8"):
         body = text.encode("utf-8")
         self.send_response(status)
-        self.send_header("Content-Type", "text/plain; charset=utf-8")
+        self.send_header("Content-Type", ctype)
         self.send_header("Content-Length", str(len(body)))
         self.end_headers()
         self.wfile.write(body)
@@ -97,6 +97,23 @@ class Handler(BaseHTTPRequestHandler):
                 from . import updater
 
                 self._json(updater.status())
+            elif path in ("/search", "/search/"):
+                from . import searchweb
+
+                qs = parse_qs(urlparse(self.path).query)
+                q = (qs.get("q") or [""])[0]
+                results = searchweb.search_all(q, LIBRARY, DOCS)
+                self._text(searchweb.render_search_page(q, results), 200, ctype="text/html; charset=utf-8")
+            elif path == "/opensearch.xml":
+                from . import searchweb
+
+                self._text(searchweb.opensearch_xml(), 200, ctype="application/opensearchdescription+xml")
+            elif path == "/api/search":
+                from . import searchweb
+
+                qs = parse_qs(urlparse(self.path).query)
+                q = (qs.get("q") or [""])[0]
+                self._json({"query": q, "results": searchweb.search_all(q, LIBRARY, DOCS)})
             else:
                 self._text("Not found", 404)
         except Exception:
