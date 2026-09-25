@@ -93,6 +93,10 @@ class Handler(BaseHTTPRequestHandler):
                 self._json({"docs": DOCS.list_docs(), "count": len(DOCS.docs)})
             elif path == "/api/samples":
                 self._json({"csvs": analysis.list_sample_csvs()})
+            elif path == "/api/update_status":
+                from . import updater
+
+                self._json(updater.status())
             else:
                 self._text("Not found", 404)
         except Exception:
