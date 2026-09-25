@@ -1,0 +1,60 @@
+# Maize
+
+_Updated 2026-09-25 · source: Wikipedia (CC BY-SA) · distilled for offline use_
+
+Maize (; Zea mays), also known as corn, is a tall stout grass that produces cereal grain. The leafy stalk of the plant gives rise to male inflorescences or tassels which produce pollen, and female inflorescences called ears. The ears yield grain, known as kernels or seeds. In modern commercial varieties, these are usually yellow or white; other varieties can be of many colors. Maize was domesticated by indigenous peoples in southern Mexico about 9,000 years ago from wild teosinte. Native Americans planted it alongside beans and squashes in the Three Sisters polyculture. 
+Maize relies on humans for its propagation. Since the Columbian exchange, it has become a staple food in many parts of the world, with the total production of maize surpassing that of wheat and rice. Much maize is used for animal feed, whether as grain (fodder) or as the whole plant, which can either be baled as forage or made into the more palatable silage. Sugar-rich varieties called sweet corn are grown for human consumption, while field corn varieties are used for animal feed, for uses such as cornmeal or masa, corn starch, corn syrup, pressing into corn oil, alcoholic beverages like bourbon whiskey, and as chemical feedstocks including ethanol and other biofuels.
+Maize is cultivated throughout the world; a greater weight of maize is produced each year than any other grain. In 2020, world production was 1.1 billion tonnes. It is afflicted by many pests and diseases; two major insect pests, European corn borer and corn rootworms, have each caused annual losses of a billion dollars in the United States. Modern plant breeding has greatly increased output and qualities such as nutrition, drought tolerance, and tolerance of pests and diseases. Much maize is now genetically modified.
+As a food, maize is used to make a wide variety of dishes including Mexican tortillas and tamales, Italian polenta, and American hominy grits. Maize protein is low in some essential amino acids, and the niacin it contains only becomes available if freed by alkali treatment. In pre-Columbian Mesoamerica, maize was deified as a maize god and depicted in sculptures.
+
+
+Description
+
+Maize is a tall annual grass with a single stem, ranging in height from 1.2 to 4 m (4 to 13 ft). The long narrow leaves arise from the nodes or joints, alternately on opposite sides on the stalk. Maize is monoecious, with separate male and female flowers on the same plant. At the top of the stem is the tassel, an inflorescence of male flowers; their anthers release pollen, which is dispersed by wind. The female inflorescence, some way down the stem from the tassel, is first seen as a silk, a bundle of soft tubular hairs, one for the carpel in each female flower, which develops into a kernel (often called a seed. Botanically, as in all grasses, it is a fruit, fused with the seed coat to form a caryopsis) when it is pollinated. A whole female inflorescence develops into an ear or corncob, enveloped by multiple leafy layers or husks. The ear leaf is the leaf most closely associated with a particular developing ear. This leaf and those above it contribute over three quarters of the carbohydrate (starch) that fills the grain.
+The grains are usually yellow or white in modern varieties; other varieties have orange, red, brown, blue, purple, or black grains. They are arranged in 8 to 32 rows around the cob; there can be up to 1200 grains on a large cob. Yellow maizes derive their color from carotenoids; red maizes are colored by anthocyanins and phlobaphenes; and orange and green varieties may contain combinations of these pigments.
+Maize has short-day photoperiodism, meaning that it requires nights of a certain length to flower. Flowering further requires enough warm days above 10 °C (50 °F). The control of flowering is set genetically; the physiological mechanism involves the phytochrome system. Tropical cultivars can be problematic if grown in higher latitudes, as the longer days can make the plants grow tall instead of setting seed before winter comes. On the other hand, growing tall rapidly could be convenient for producing biofuel.
+Immature maize shoots accumulate a powerful antibiotic substance, 2,4-dihydroxy-7-methoxy-1,4-benzoxazin-3-one (DIMBOA), which provides a measure of protection against a wide range of pests. Because of its shallow roots, maize is susceptible to droughts, intolerant of nutrient-deficient soils, and prone to being uprooted by severe winds.
+The pollen is an allergen, but most of it falls within a few meters of the tassel and the risk is largely restricted to farm workers. 
+
+
+Genetics
+
+Maize is diploid with 20 chromosomes. 83% of allelic variation within the genome derives from its teosinte ancestors, primarily due to the freedom of Zea species to outcross. Barbara McClintock used maize to validate her transposon theory of "jumping genes", for which she won the 1983 Nobel Prize in Physiology or Medicine. Maize remains an important model organism for genetics and developmental biology. The MADS-box motif is involved in the development of maize flowers.
+The Maize Genetics and Genomics Database is funded by the United States Department of Agriculture (USDA) to support maize research. The International Maize and Wheat Improvement Center maintains a large collection of maize accessions tested and cataloged for insect resistance. In 2005, the U.S. National Science Foundation, the USDA, and the Department of Energy formed a consortium to sequence the maize genome. The resulting DNA sequence data was deposited immediately into GenBank, a public repository for genome-sequence data. Sequencing of the maize genome was completed in 2008. In 2009, the consortium published results of its sequencing effort. The genome, 85% of which is composed of transposons, contains 32,540 genes. Much of it has been duplicated and reshuffled by helitrons, a group of transposable elements within maize's DNA.
+
+
+Taxonomy
+
+
+External phylogeny
+The maize genus Zea is relatively closely related to sorghum, both being in the PACMAD clade of Old World grasses, and much more distantly to rice and wheat, which are in the other major group of grasses, the BOP clade. It is closely related to Tripsacum, gamagrass.
+
+
+Maize and teosinte
+
+Maize is the domesticated variant of the four species of teosintes, which are its crop wild relatives. Teosinte was likely used by hunter-gatherers because it added security to their food supply, being that it was adaptable to changes in climate and environment.
+The teosinte origin theory was proposed by the Russian botanist Nikolai Ivanovich Vavilov in 1931, and the American Nobel Prize-winner George Beadle in 1932. The two plants have dissimilar appearance, maize having a single tall stalk with multiple leaves and teosinte being a short, bushy plant. The difference between the two is largely controlled by differences in just two genes, called grassy tillers-1 (gt1, A0A317YEZ1) and teosinte branched-1 (tb1, Q93WI2). In the late 1930s, Paul Mangelsdorf suggested that domesticated maize was the result of a hybridization event between an unknown wild maize and a species of Tripsacum, a related genus; this has been refuted by modern genetic testing.
+
+In 2004, John Doebley identified Balsas teosinte, Zea mays subsp. parviglumis, native to the Balsas River valley in Mexico's southwestern highlands, as the crop wild relative genetically most similar to modern maize. The middle part of the short Balsas River valley is the likely location of early domestication. Stone milling tools with maize residue have been found in an 8,700 year old layer of deposits in a cave not far from Iguala, Guerrero. Doebley and colleagues showed in 2002 that maize had been domesticated only once, about 9,000 years ago, and then spread throughout the Americas.
+Maize pollen dated to 7,300 years ago from San Andres, Tabasco has been found on the Caribbean coast. A primitive corn was being grown in southern Mexico, Central America, and northern South America 7,000 years ago. Archaeological remains of early maize ears, found at Guila Naquitz Cave in the Oaxaca Valley, are roughly 6,250 years old; the oldest ears from caves near Tehuacan, Puebla, are 5,450 years old.
+
+
+Spreading to the north
+Around 4,500 years ago, maize began to spread to the north. Maize was first cultivated at several sites in New Mexico and Arizona about 4,100 years ago. During the first millennium AD, maize cultivation spread more widely in the areas north. In particular, the large-scale adoption of maize agriculture and consumption in eastern North America took place about A.D. 900. Native Americans cleared large forest and grassland areas for the new crop. The rise in maize cultivation 500 to 1,000 years ago in what is now the southeastern U.S. corresponded with a decline of freshwater mussels, which are very sensitive to environmental changes.
+
+
+Names
+The name maize derives from the Spanish form maíz of the Taíno mahis. The Swedish botanist Carl Linnaeus used the common name maize as the species epithet in Zea mays. The name maize is preferred in formal, scientific, and international usage as a common name because it refers specifically to this one grain, unlike corn, which has a complex variety of meanings that vary by context and geographic region. Most countries primarily use the term maize, and the name corn is used mainly in the U.S. and a handful of other English-speaking countries. In countries that primarily use the term maize, the word corn may denote any cereal crop, varying geographically with the local staple, such as wheat in England and oats in Scotland or Ireland. The usage of corn for maize started as a shortening of "Indian corn" in 18th-century North America.
+The historian of food Betty Fussell writes in an article on the history of the word corn in North America that "[t]o say the word corn is to plunge into the tragi-farcical mistranslations of language and history". Similar to the British usage, the Spanish referred to maize as panizo, a generic term for cereal grains, as did Italians with the term polenta. The British later referred to maize as Turkey wheat, Turkey corn, or Indian corn; Fussell comments that "they meant not a place but a condition, a savage rather than a civilized grain".
+International groups such as the Centre for Agriculture and Bioscience International consider maize the preferred common name. The word maize is used by the UN's Food and Agriculture Organization, and in the names of the International Maize and Wheat Improvement Center of Mexico, the Indian Institute of Maize Research, the Maize Association of Australia, the National Maize Association of Nigeria, the National Maize Association of Ghana, the Maize Trust of South Africa, and the Zimbabwe Seed Maize Association. In the United States, maize can be used interchangeably with the term corn.
+
+
+Cultivation
+
+
+Pre-Columbian development
+
+Maize requires human intervention for its propagation. The kernels of its naturally-propagating teosinte ancestor fall off the cob on their own, while those of domesticated maize do not. All maize arose from a single domestication in southern Mexico about 9,000 years ago. The oldest surviving maize types are those of the Mexican highlands. Maize spread from this region to the lowlands and over the Americas along two major paths. The centre of domestication was most likely the Balsas River valley of south-central Mexico. Maize reached highland Ecuador at least 8000 years ago. It reached lower Central America by 7,600 years ago, and the valleys of the Colombian Andes between 7,000 and 6,000 years ago.
+The earliest maize plants grew a single, small ear per plant. The Olmec and Maya cultivated maize in numerous varieties throughout Mesoamerica; they cooked, ground and processed it through nixtamalization. By 3000 years ago, maize was central to Olmec culture, including their calendar, langua
+
+_(truncated for offline pack)_
