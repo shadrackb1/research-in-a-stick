@@ -154,6 +154,14 @@ class Handler(BaseHTTPRequestHandler):
             elif path == "/api/wiki_start":
                 ok = wiki.ensure_ready(timeout=30.0)
                 self._json({"started": ok, **wiki.status()})
+            elif path == "/api/update_status":
+                from . import updater
+
+                self._json(updater.status())
+            elif path == "/api/update":
+                from . import updater
+
+                self._json(updater.apply_update())
             elif path == "/api/reload":
                 self._json({"library_docs": LIBRARY.reload(), "uploaded_docs": DOCS.reload()})
             else:

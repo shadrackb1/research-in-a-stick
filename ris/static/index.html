@@ -28,6 +28,7 @@
         <button type="button" class="nav-item" data-view="data">Data</button>
         <button type="button" class="nav-item" data-view="wiki">Offline Wiki</button>
         <button type="button" class="nav-item" data-view="browser">RIS Browser</button>
+        <button type="button" class="nav-item" data-view="update">Updates</button>
       </nav>
 
       <div class="side-foot">
@@ -165,6 +166,24 @@
           </div>
           <iframe class="rb-view" id="rbFrame" title="RIS Browser content" sandbox="allow-same-origin allow-forms"></iframe>
           <div class="rb-status" id="rbStatus">Offline only · external sites are blocked</div>
+        </div>
+      </section>
+
+      <!-- UPDATES -->
+      <section class="view" id="view-update">
+        <div class="pane">
+          <h1>Optional updates</h1>
+          <p class="muted">
+            Pull the latest knowledge packs collected online. This is optional —
+            RIS works fully offline without it. Updates never replace your app
+            code or model unless you choose a model pack later.
+          </p>
+          <div class="row-form">
+            <button class="btn" type="button" id="updateCheck">Check for updates</button>
+            <button class="btn ghost" type="button" id="updateRun">Download &amp; apply</button>
+          </div>
+          <div id="updateOut" class="card-out muted">Check first. Then apply if a new pack is available.</div>
+          <div id="updateLog" class="list"></div>
         </div>
       </section>
     </main>

@@ -47,6 +47,7 @@ function showView(name) {
   if (name === "rag") loadDocs();
   if (name === "wiki") loadWiki();
   if (name === "browser") initBrowser();
+  if (name === "update") loadUpdateStatus();
 }
 
 $$(".nav-item").forEach((btn) => btn.addEventListener("click", () => showView(btn.dataset.view)));
@@ -522,6 +523,55 @@ function initBrowser() {
   });
   rbNavigate("ris://home", true);
 }
+
+/* ——— Optional updates ——— */
+async function loadUpdateStatus() {
+  try {
+    const st = await api("/api/update_status");
+    $("#updateOut").textContent = `Feed: ${st.feed}\nLast: ${(st.last_log || []).join("\n") || "no update run yet"}`;
+    $("#updateOut").classList.remove("muted");
+  } catch (e) {
+    $("#updateOut").textContent = "Update status unavailable: " + e.message;
+  }
+}
+$("#updateCheck").addEventListener("click", async () => {
+  $("#updateOut").textContent = "Checking online feed…";
+  try {
+    const st = await api("/api/update_status");
+    $("#updateOut").textContent =
+      "Feed ready.\n" +
+      (st.manifest_url || "") +
+      "\nPress Download & apply to refresh knowledge packs.";
+    $("#updateOut").classList.remove("muted");
+  } catch (e) {
+    $("#updateOut").textContent = "Cannot reach update feed: " + e.message;
+  }
+});
+$("#updateRun").addEventListener("click", async () => {
+  const btn = $("#updateRun");
+  btn.disabled = true;
+  $("#updateOut").textContent = "Downloading updates…";
+  try {
+    const res = await api("/api/update", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: "{}",
+    });
+    $("#updateOut").textContent =
+      res.ok
+        ? `Done. Updated ${res.updated} file(s).`
+        : `Update failed: ${res.error || "unknown"}`;
+    $("#updateOut").classList.remove("muted");
+    $("#updateLog").innerHTML = (res.log || [])
+      .map((l) => `<div class="item">${escapeHtml(l)}</div>`)
+      .join("");
+    refreshStatus();
+  } catch (e) {
+    $("#updateOut").textContent = "Error: " + e.message;
+  } finally {
+    btn.disabled = false;
+  }
+});
 
 /* Init */
 ensureWelcome();

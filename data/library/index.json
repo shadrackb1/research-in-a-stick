@@ -1,0 +1,20 @@
+{
+  "files": [
+    "data/library/agriculture/fall_armyworm.md",
+    "data/library/agriculture/maize.md",
+    "data/library/agriculture/maize_smallholder.md",
+    "data/library/agriculture/smallholding.md",
+    "data/library/curriculum/biology_revision.md",
+    "data/library/curriculum/photosynthesis.md",
+    "data/library/curriculum/scientific_method.md",
+    "data/library/health/cholera.md",
+    "data/library/health/cholera_prevention.md",
+    "data/library/health/malaria.md",
+    "data/library/health/malaria_overview.md",
+    "data/library/health/oral_rehydration_therapy.md",
+    "data/library/policy/digital_divide.md",
+    "data/library/policy/digital_superhighway.md",
+    "data/library/policy/kenya.md"
+  ],
+  "updated": "2026-09-25T05:25:59.319902"
+}

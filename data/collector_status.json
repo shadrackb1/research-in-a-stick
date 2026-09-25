@@ -1,0 +1,17 @@
+{
+  "ok": true,
+  "files_written": 7,
+  "time": "2026-09-25T05:24:45.114610+00:00",
+  "topics": [
+    "health/Malaria",
+    "health/Cholera",
+    "health/Oral rehydration therapy",
+    "agriculture/Maize",
+    "agriculture/Smallholding",
+    "agriculture/Fall armyworm",
+    "curriculum/Scientific method",
+    "curriculum/Photosynthesis",
+    "policy/Digital divide",
+    "policy/Kenya"
+  ]
+}
