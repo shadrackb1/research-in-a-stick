@@ -1,0 +1,96 @@
+# Horticulture
+
+_Updated 2026-09-25 · source: Wikipedia (CC BY-SA) · distilled for offline use_
+
+Horticulture (from Latin: horti + culture) is the science and art of growing ornamental plants, flowers, as well as fruits, vegetables, and other economically valuable crops or trees on a controlled scale. Horticulture is distinct from conventional extensive farming and row crop agronomy through its emphasis on landscaping, plant propagation, floriculture, or various non-ornamental crops being grown in deliberately controlled environments such as greenhouses and specific formats of commercial small-scale outdoor operations. There are various divisions of horticulture because plants are grown for a variety of purposes. These divisions include, but are not limited to: propagation, arboriculture, landscaping, floriculture and turf maintenance. For each of these, there are various professions, aspects, tools used and associated challenges—each requiring highly specialized skills and knowledge on the part of the horticulturist.
+Typically, horticulture is characterized as the ornamental, small-scale and non-industrial cultivation of plants; horticulture is distinct from gardening by its emphasis on scientific methods, plant breeding, and technical cultivation practices, while gardening, even at a professional level, tends to focus more on the aesthetic care and maintenance of plants in gardens or landscapes. However, some aspects of horticulture are industrialized or commercial such as greenhouse production or CEA.
+Horticulture began with the domestication of plants c. 10,000 – c. 20,000 years ago. At first, only plants for sustenance were grown and maintained, but as humanity became increasingly sedentary, plants were grown for their ornamental value. Horticulture emerged as a distinct field from agriculture when humans sought to cultivate plants for pleasure on a smaller scale rather than exclusively for sustenance.
+Emerging technologies are moving the industry forward, especially in the alteration of plants to be more resistant to parasites, disease and drought. Modifying technologies such as CRISPR are also improving the nutrition, taste and yield of crops.
+Many horticultural organizations and societies around the world have been formed by horticulturists and those within the industry. These include the Royal Horticultural Society, the International Society for Horticultural Science, and the American Society of Horticultural Science.
+
+
+Divisions of horticulture and types of horticulturists
+There are divisions and sub-divisions within horticulture because plants are grown for many different reasons. Some of the divisions in horticulture include:
+
+gardening
+plant production and propagation
+arboriculture
+landscaping
+floriculture
+garden design and maintenance
+turf maintenance
+plant conservation and landscape restoration.
+It includes the cultivation of all plants including, but not limited to: ornamental plants, fruits, vegetables, flowers, turf, nuts, seeds, herbs and other medicinal/edible plants. This cultivation may occur in garden spaces, nurseries, greenhouses, vineyards, orchards, parks, recreation areas, etc. 
+Horticulturists study and practice the cultivation of plant material professionally. There are many different types of horticulturists with different job titles, including: gardener, grower, farmer, arborist, floriculturist, landscaper, agronomist, designer, landscape architect, lawn-care specialist, nursery manager, botanical garden curator, horticulture therapist, and much more. They may be hired by a variety of companies/institutions including, but not limited to: botanical gardens, private/public gardens, parks, cemeteries, greenhouses, golf courses, vineyards, estates, landscaping companies, nurseries, educational institutions, etc. They may also be self-employed.
+
+
+History
+Horticulture began with the domestication of plants 10,000–20,000 years ago and has since been deeply integrated into human history. The domestication of plants occurred independently within various civilizations across the globe. The history of horticulture overlaps with the history of agriculture and history of botany, as all three originated with the domestication of various plants for food.  In Europe, agriculture and horticulture diverged at some point during the Middle Ages.
+
+
+Early practices in horticulture
+Early practices in horticulture include various tools and methods of land management, with different methods and plant types used for different uses. Methods, tools and plants grown have always depended on the culture and climate.
+
+
+Pre-colonized North and Central America
+Many traditional horticultural practices are known, such as the Indigenous peoples of pre-colonized North America using biochar to enhance soil productivity by smoldering plant waste – European settlers called this soil Terra Preta de Indio. In North America, Indigenous people grew maize, squash, and sunflower, among other crops. Mesoamerican cultures focused on cultivating crops on a small scale, such as the milpa or maize field, around their dwellings or in specialized plots which were visited occasionally during migrations from one area to the next. In Central America, the Maya involved augmentation of the forest with useful trees such as papaya, avocado, cacao, ceiba and sapodilla. In the fields, multiple crops such as beans, squash, pumpkins and chili peppers were grown. The first horticulturists in many cultures were mainly or exclusively women.
+
+
+Historical uses for plants in horticulture
+In addition to plants' medicinal and nutritional value, plants have also been grown for their beauty, to impress and to demonstrate power, knowledge, status and even wealth of those in control of the cultivated plant material. This symbolic power that plants hold has existed even before the beginnings of their cultivation.
+There is evidence that various gardens maintained by the Aztecs were sacred, as they grew plants that held religious value. Plants were grown for their metaphorical relation to gods and goddesses. Flowers held symbolic power in religious rites, as they were offered to the gods and given in ceremonies to leaders to demonstrate their connection to the gods.
+
+
+Aspects of horticulture
+
+
+Propagation
+
+Plant propagation in horticulture is the process by which the number of individual plants is increased. Propagation involves both sexual and asexual methods. Sexual propagation uses seeds, while asexual propagation involves the division of plants, separation of tubers, corms, and bulbs using techniques such as cutting, layering, grafting.
+
+
+Plant selection
+When selecting plants to cultivate, a horticulturist may consider aspects based on the plant's intended use, including plant morphology, rarity, and utility. When selecting plants for the landscape, observations of the location must be made first. Soil type, temperature, climate, light, moisture, and pre-existing plants are considered when selecting plant material for the location. Plant selection may be for annual displays, or they may be for more permanent plantings. Characteristics of the plant – such as mature height and size, colour, growth habit, ornamental value, flowering time and invasive potential – finalize the plant selection process.
+
+
+Controlling environmental/growing variables
+Environmental factors affecting plant development include temperature, light, water, soil pH, nutrient availability, weather, humidity, elevation, terrain, and micro-climate. In horticulture, these environmental variables may be avoided, controlled or manipulated in an indoor growing environment.
+
+
+Temperature
+Plants require specific temperatures to grow and develop properly. Temperature can be controlled through a variety of methods. Covering plants with plastic in the form of cones called hot caps, or tunnels, can help to manipulate the surrounding temperature. Mulching is also an effective method to protect outdoor plants from frost during the winter. Inside, other frost prevention methods include wind machines, heaters, and sprinklers.
+
+
+Light
+Plants have evolved to require different amounts of light and lengths of daytime; their growth and development are determined by the amount of light they receive. Control of this may be achieved artificially with fluorescent lights in an indoor setting. Manipulating the amount of light also controls flowering. Lengthening the day encourages the flowering of long-day plants and discourages the flowering of short-day plants.
+
+
+Water
+Water management methods involve employing irrigation and drainage systems and controlling soil moisture to the needs of the species. Irrigation methods include surface irrigation, sprinkler irrigation, sub-irrigation, and trickle irrigation. Watering volume, pressure, and frequency are changed to optimize the growing environment. On a small scale, watering can be done manually.
+
+
+Growing media and soil management
+The choice of growing media and components to the media help support plant life. Within a greenhouse environment, growers may choose to grow their plants in an aquaponic system where no soil is used. Growers within a greenhouse setting will often opt for a soilless mix which does not include any actual components of naturally occurring soil. These mixes are generally very available within the industry and offer advantages such as water absorption and sterility.
+Soil management methods are broad but include the applying fertilizers, planned crop rotation to prevent the soil degradation seen in monocultures, and soil analysis.
+
+
+Control by use of enclosed environments
+Abiotic factors such as weather, light and temperature are all things that can be manipulated with enclosed environments such as cold frames, greenhouses, conservatories, poly houses and shade houses. Materials used in constructing these buildings are chosen based on the climate, purpose and budget.
+Cold frames provide an enclosed environment; they are built close to the ground and with a top made of glass or plastic. The glass or plastic allows sunlight into the frame during the day and prevents heat loss that would have been lost as long-wave radiation at night. This allows plants to begin growing before the growing season starts. Greenhouses and conservatories are similar in function but are larger and heated with an external energy source. They can be built out of glass but are now primarily made from plastic sheets. More expensive and modern greenhouses can include temperature control through shade and light control or air-conditioning and automatic watering. Shade houses provide shading to limit water loss by evapotranspiration.
+
+
+Challenges
+
+
+Abiotic stresses
+Commercial horticulture is required to support a rapidly growing population with demands for its products. Due to global climate change, extremes in temperatures, strength of precipitation events, flood frequency, and drought length and frequency are increasing. Together with other abiotic stressors such as salinity, heavy metal toxicity, UV damage, and air pollution, stressful environments are created for crop production. This is extrapolated as evapotranspiration is increased, soils are degraded of nutrients, and oxygen levels are depleted, resulting in up to a 70% loss in crop yield.
+
+
+Biotic stresses
+Living organisms such as bacteria, viruses, fungi, parasites, insects, weeds and native plants are sources of biotic stresses and can deprive the host of nutrients. Plants respond to these stresses using defence mechanisms such as morphological and structural barriers, chemical compounds, proteins, enzymes and hormones. The impact of biotic stresses can be prevented using practices such as incorporate tilling, spraying or Integrated Pest Management (IPM).
+
+
+Harvest management
+Care is required to reduce damages and losses to horticultural crops during harvest. Compression forces occur during harvesting, and horticultural goods can be hit in a series of impacts during transp
+
+_(truncated for offline pack)_
